@@ -48,52 +48,68 @@ const Trends = () => {
     <div className="w-full px-6 py-12 bg-black text-white relative">
       <h2 className="text-4xl font-bold mb-8 text-left">Trending Now</h2>
 
-      {/* Scroll buttons */}
-      <button
-        onClick={() => scroll("left")}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 p-3 rounded-full z-20"
-      >
-        <ChevronLeft size={30} />
-      </button>
+      {/* ---------- Movie Carousel ---------- */}
+      <div className="relative group">
+        {/* Left Scroll Button */}
+        <button
+          onClick={() => scroll("left")}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 p-3 rounded-full z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          <ChevronLeft size={30} />
+        </button>
 
-      <button
-        onClick={() => scroll("right")}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 p-3 rounded-full z-20"
-      >
-        <ChevronRight size={30} />
-      </button>
+        {/* Right Scroll Button */}
+        <button
+          onClick={() => scroll("right")}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 p-3 rounded-full z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          <ChevronRight size={30} />
+        </button>
 
-      {/* Movie list */}
-      <div
-        ref={scrollRef}
-        className="flex gap-6 overflow-x-scroll scrollbar-thin scrollbar-thumb-black scrollbar-track-transparent scroll-smooth"
-        style={{
-          scrollbarColor: "black transparent",
-          scrollbarWidth: "thin",
-        }}
-      >
-        {movies.map((movie) => (
-          <div
-            key={movie.id}
-            className="relative flex-shrink-0 w-48 sm:w-56 md:w-64 cursor-pointer group"
-            onClick={() => setSelectedMovie(movie)}
-          >
-            {movie.poster_path ? (
-              <img
-                src={`${IMAGE_BASE_URL}${movie.poster_path}`}
-                alt={movie.title}
-                className="w-full h-auto rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300"
-              />
-            ) : (
-              <div className="w-full h-72 bg-gray-800 flex items-center justify-center rounded-lg">
-                <span className="text-gray-400 text-sm">No Image</span>
-              </div>
-            )}
-          </div>
-        ))}
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-scroll scroll-smooth pb-4"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          <style>
+            {`
+              ::-webkit-scrollbar {
+                display: none;
+              }
+            `}
+          </style>
+
+          {movies.map((movie, index) => (
+            <div
+              key={movie.id}
+              className="relative flex-shrink-0 w-48 sm:w-56 md:w-64 cursor-pointer group"
+              onClick={() => setSelectedMovie(movie)}
+            >
+              {/* 🔴 Trending Number */}
+              <span className="absolute top-2 left-2 text-red-600 font-extrabold text-3xl sm:text-4xl drop-shadow-md select-none">
+                {index + 1}
+              </span>
+
+              {movie.poster_path ? (
+                <img
+                  src={`${IMAGE_BASE_URL}${movie.poster_path}`}
+                  alt={movie.title}
+                  className="w-full h-auto rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300"
+                />
+              ) : (
+                <div className="w-full h-72 bg-gray-800 flex items-center justify-center rounded-lg">
+                  <span className="text-gray-400 text-sm">No Image</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Movie Details Modal */}
+      {/* ---------- Movie Details Modal ---------- */}
       {selectedMovie && (
         <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-50">
           <div className="bg-gray-900 p-6 rounded-2xl max-w-2xl text-white relative">
@@ -207,3 +223,4 @@ const Trends = () => {
 };
 
 export default Trends;
+

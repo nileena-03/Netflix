@@ -1,13 +1,20 @@
-// src/pages/SignIn.jsx
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Sign in:", { email, password });
+    // Temporary fake auth check
+    if (email && password) {
+      console.log("Signed in:", { email, password });
+      navigate("/"); // goes back to your App.jsx landing page
+    } else {
+      alert("Please enter email and password!");
+    }
   };
 
   return (
@@ -44,7 +51,10 @@ const Signin = () => {
         </button>
 
         <p className="text-gray-400 text-sm mt-4 text-center">
-          New to Netflix? <a href="/" className="text-red-500 hover:underline">Sign up now</a>
+          New to Netflix?{" "}
+          <a href="/" className="text-red-500 hover:underline">
+            Sign up now
+          </a>
         </p>
       </form>
     </div>
